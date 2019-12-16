@@ -8,6 +8,7 @@ type User struct {
 	UserName     string    `orm:"unique;size(32)"`
 	UserPassword string    `orm:"size(32)"`
 	RealName     string    `orm:"size(30)"`
+	Email        string    `orm:"size(50)"`
 	IsActive     int       `orm:"default(0)"`
 	LastLogin    time.Time `orm:"null;type(datetime)"`
 	CreateTime   time.Time `orm:"auto_now_add;type(datetime)"`
