@@ -15,6 +15,24 @@ paths:
     get:
       tags:
       - user
+      description: get all users
+      operationId: UserController.GetAllUser
+    post:
+      tags:
+      - user
+      description: add a new user
+      operationId: UserController.Add User
+      responses:
+        "201":
+          description: ""
+          schema:
+            $ref: '#/definitions/services.UserService.User'
+        "400":
+          description: ""
+definitions:
+  services.UserService.User:
+    title: User
+    type: object
 tags:
 - name: user
   description: |

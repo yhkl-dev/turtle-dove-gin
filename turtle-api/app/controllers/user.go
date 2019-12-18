@@ -16,7 +16,6 @@ type UserController struct {
 
 // @Title GetAllUser
 // @Description get all users
-// @Param
 // @success 200
 // @router / [get]
 func (us *UserController) GetAll() {
@@ -32,22 +31,21 @@ func (us *UserController) GetAll() {
 	us.Data["json"] = users
 	fmt.Println(count, users)
 	us.ServeJSON()
-
 }
 
+// @Title Add User
+// @Description add a new user
+// @Success 201 {object} services.UserService.User
+// @Failure 400
 // @router / [post]
 func (us *UserController) AddUser() {
+
 	valid := validation.Validation{}
 
 	userName := us.GetString("userName")
 	email := us.GetString("email")
 	realName := us.GetString("realName")
 	userPassword := us.GetString("userPassword")
-
-	valid.Required(userName, "userName").Message("请输入用户名")
-	valid.Required(email, "email").Message("请输入邮箱")
-	valid.Email(email, "email").Message("Email无效")
-	valid.MinSize(userPassword, 8, "userPassword").Message("密码长度不能小于6位")
 
 	if valid.HasErrors() {
 		for _, err := range valid.Errors {
@@ -57,7 +55,10 @@ func (us *UserController) AddUser() {
 	user, err := services.UserService.AddUser(userName, userPassword, realName, email)
 	if err != nil {
 		fmt.Println(err)
-
+		us.Data["code"] = 404
+		us.Data["error"] = err
+		fmt.Println(us.Data)
 	}
-	us.display()
+	fmt.Println(user)
+	us.ServeJSON()
 }

@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"time"
 
 	"github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/tables"
 )
@@ -55,6 +56,7 @@ func (us *userService) AddUser(userName, userPassword, realName, email string) (
 	user.UserPassword = userPassword
 	user.RealName = realName
 	user.Email = email
+	user.UpdateTime = time.Now()
 	_, err := o.Insert(user)
 	return user, err
 }
