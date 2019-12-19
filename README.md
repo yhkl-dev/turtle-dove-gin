@@ -1,5 +1,5 @@
 
-![Turtle Dove](https://github.com/raw/master/yhkl-dev/turtle-dove-beego/images/logo/turtle.png)
+![Turtle Dove](https://github.com/yhkl-dev/turtle-dove-beego/raw/master/images/logo/turtle.png)
 ops-manager-api
 
 ### run
