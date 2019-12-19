@@ -29,6 +29,44 @@
                 ],
                 "description": "add a new user",
                 "operationId": "UserController.Add User",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "RealName",
+                        "description": "true",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Email",
+                        "description": "true",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "RealName",
+                        "description": "true",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "UserPassword",
+                        "description": "true",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    }
+                ],
                 "responses": {
                     "201": {
                         "description": "",
