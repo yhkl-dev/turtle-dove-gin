@@ -78,6 +78,20 @@
                         "description": ""
                     }
                 }
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "userID",
+                        "description": "required",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ]
             }
         }
     },
@@ -90,7 +104,7 @@
     "tags": [
         {
             "name": "user",
-            "description": "Operations for User\n"
+            "description": "UserController struct\nOperations for User\n"
         }
     ]
 }

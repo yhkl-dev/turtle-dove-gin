@@ -54,6 +54,15 @@ paths:
             $ref: '#/definitions/services.UserService.User'
         "400":
           description: ""
+    delete:
+      tags:
+      - user
+      parameters:
+      - in: query
+        name: userID
+        description: required
+        type: integer
+        format: int64
 definitions:
   services.UserService.User:
     title: User
@@ -61,4 +70,5 @@ definitions:
 tags:
 - name: user
   description: |
+    UserController struct
     Operations for User

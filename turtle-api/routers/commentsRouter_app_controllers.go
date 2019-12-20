@@ -25,4 +25,13 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:UserController"] = append(beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:UserController"],
+        beego.ControllerComments{
+            Method: "DeleteUser",
+            Router: `/`,
+            AllowHTTPMethods: []string{"delete"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
 }

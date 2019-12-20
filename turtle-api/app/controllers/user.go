@@ -6,17 +6,18 @@ import (
 	"strconv"
 
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/validation"
 	"github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/services"
 	"github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/tables"
 	"github.com/yhkl-dev/turtle-dove-beego/turtle-api/utils"
 )
 
+// UserController struct
 // Operations for User
 type UserController struct {
 	beego.Controller
 }
 
+// GetAll func
 // @Title GetAllUser
 // @Description get all users
 // @success 200
@@ -61,21 +62,12 @@ func (us *UserController) GetAll() {
 func (us *UserController) AddUser() {
 
 	var userParse tables.User
-	valid := validation.Validation{}
 
 	infos := us.Ctx.Input.RequestBody
-
-	fmt.Println(string(infos))
 
 	err := json.Unmarshal(infos, &userParse)
 	if err != nil {
 		fmt.Println("json parse error", err.Error())
-	}
-
-	if valid.HasErrors() {
-		for _, err := range valid.Errors {
-			fmt.Printf("参数错误 %s\n", err.Message)
-		}
 	}
 
 	user, err := services.UserService.AddUser(
@@ -83,11 +75,30 @@ func (us *UserController) AddUser() {
 		userParse.UserPassword,
 		userParse.RealName,
 		userParse.Email)
+
 	if err != nil {
 		us.Ctx.ResponseWriter.WriteHeader(400)
 		us.Ctx.ResponseWriter.Write([]byte(err.Error()))
 		us.StopRun()
 	}
 	us.Data["json"] = user
+	us.ServeJSON()
+}
+
+// Title Delete User By userID
+// @Param userID query int required
+// @router / [delete]
+func (us *UserController) DeleteUser() {
+
+	id, _ := us.GetInt("userID")
+	fmt.Println("id", id)
+
+	err := services.UserService.DeleteUser(id)
+
+	if err != nil {
+		us.Ctx.ResponseWriter.WriteHeader(400)
+		us.Ctx.ResponseWriter.Write([]byte(err.Error()))
+		us.StopRun()
+	}
 	us.ServeJSON()
 }
