@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/astaxie/beego"
@@ -50,6 +49,7 @@ func (us *UserController) GetAll() {
 	us.ServeJSON()
 }
 
+// AddUser function
 // @Title Add User
 // @Description add a new user
 // @Param RealName     body string true
@@ -65,9 +65,8 @@ func (us *UserController) AddUser() {
 
 	infos := us.Ctx.Input.RequestBody
 
-	err := json.Unmarshal(infos, &userParse)
-	if err != nil {
-		fmt.Println("json parse error", err.Error())
+	if err := json.Unmarshal(infos, &userParse); err != nil {
+		us.CustomAbort(500, err.Error())
 	}
 
 	user, err := services.UserService.AddUser(
@@ -85,14 +84,13 @@ func (us *UserController) AddUser() {
 	us.ServeJSON()
 }
 
-// Title Delete User By userID
+// @Title Delete User By userID
 // @Param userID query int required
+// @success 200
 // @router / [delete]
 func (us *UserController) DeleteUser() {
 
 	id, _ := us.GetInt("userID")
-	fmt.Println("id", id)
-
 	err := services.UserService.DeleteUser(id)
 
 	if err != nil {
@@ -100,5 +98,46 @@ func (us *UserController) DeleteUser() {
 		us.Ctx.ResponseWriter.Write([]byte(err.Error()))
 		us.StopRun()
 	}
+	us.Data["json"] = "ok"
+	us.ServeJSON()
+}
+
+// @Title update user profile
+// @router / [put]
+func (us *UserController) UpdateUserProfile() {
+	id, _ := us.GetInt("userID")
+	user, err := services.UserService.GetUser(id)
+	if err != nil {
+		us.CustomAbort(404, err.Error())
+	}
+
+	var userParse tables.User
+
+	infos := us.Ctx.Input.RequestBody
+	err = json.Unmarshal(infos, &userParse)
+	if err != nil {
+		us.CustomAbort(500, err.Error())
+	}
+
+	if len(userParse.RealName) != 0 {
+		user.RealName = userParse.RealName
+	}
+	if len(userParse.Email) != 0 {
+		user.Email = userParse.Email
+	}
+
+	err = services.UserService.UpdateUser(user, "Email", "RealName")
+
+	if err != nil {
+		us.CustomAbort(500, err.Error())
+	}
+	// update password
+	if len(userParse.UserPassword) > 0 {
+		err = services.UserService.ChangePassword(user, userParse.UserPassword)
+		if err != nil {
+			us.CustomAbort(500, err.Error())
+		}
+	}
+	us.Data["json"] = "ok"
 	us.ServeJSON()
 }

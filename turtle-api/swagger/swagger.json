@@ -23,6 +23,12 @@
                 "description": "get all users",
                 "operationId": "UserController.GetAllUser"
             },
+            "put": {
+                "tags": [
+                    "user"
+                ],
+                "operationId": "UserController.update user profile"
+            },
             "post": {
                 "tags": [
                     "user"
@@ -83,6 +89,7 @@
                 "tags": [
                     "user"
                 ],
+                "operationId": "UserController.Delete User By userID",
                 "parameters": [
                     {
                         "in": "query",
