@@ -1,16 +1,11 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "beego Test API",
-        "description": "beego has a very cool tools to autogenerate documents for your API",
+        "title": "TurtleDove API",
+        "description": "apis for turtle-dove",
         "version": "1.0.0",
-        "termsOfService": "http://beego.me/",
         "contact": {
-            "email": "astaxie@gmail.com"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "email": "kaiyang939325@gmail.com"
         }
     },
     "basePath": "/v1",
@@ -20,14 +15,115 @@
                 "tags": [
                     "user"
                 ],
-                "description": "get all users",
-                "operationId": "UserController.GetAllUser"
+                "description": "Return all users",
+                "operationId": "UserController.GetAllUser",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "page",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page_size",
+                        "description": "page_size",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "UserName",
+                        "description": "user_name",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "Email",
+                        "description": "user_email",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "RealName",
+                        "description": "user_real_name",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "IsActive",
+                        "description": "false",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success"
+                    },
+                    "404": {
+                        "description": "data not found"
+                    },
+                    "500": {
+                        "description": "internal error"
+                    }
+                }
             },
             "put": {
                 "tags": [
                     "user"
                 ],
-                "operationId": "UserController.update user profile"
+                "description": "update user profile and password",
+                "operationId": "UserController.update user profile",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "userID",
+                        "description": "userid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "Email",
+                        "description": "false",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "UserPassword",
+                        "description": "false",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "RealName",
+                        "description": "false",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "ok"
+                    },
+                    "404": {
+                        "description": "uer not found"
+                    },
+                    "500": {
+                        "description": "parse json error"
+                    }
+                }
             },
             "post": {
                 "tags": [
@@ -89,23 +185,68 @@
                 "tags": [
                     "user"
                 ],
+                "description": "Delete user by userid",
                 "operationId": "UserController.Delete User By userID",
                 "parameters": [
                     {
                         "in": "query",
                         "name": "userID",
-                        "description": "required",
+                        "description": "userid",
+                        "required": true,
                         "type": "integer",
                         "format": "int64"
                     }
-                ]
+                ],
+                "responses": {
+                    "204": {
+                        "description": "success"
+                    },
+                    "400": {
+                        "description": "bad request"
+                    }
+                }
             }
         },
         "/user/login": {
             "post": {
                 "tags": [
                     "user"
-                ]
+                ],
+                "description": "return a jwt token",
+                "operationId": "UserController.Login interface",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "UserName",
+                        "description": "user_name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "UserPassword",
+                        "description": "user_password",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "login success"
+                    },
+                    "401": {
+                        "description": "authentication error"
+                    },
+                    "500": {
+                        "description": "internal error"
+                    }
+                }
             }
         }
     },
@@ -118,7 +259,7 @@
     "tags": [
         {
             "name": "user",
-            "description": "UserController struct\nOperations for User\n"
+            "description": "UserController struct, Operation for user api\n"
         }
     ]
 }

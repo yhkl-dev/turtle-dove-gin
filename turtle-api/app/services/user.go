@@ -37,11 +37,7 @@ func (us *userService) GetUser(userID int) (*tables.User, error) {
 	return user, err
 }
 
-func (us *userService) GetTotal() (int64, error) {
-	return o.QueryTable(us.table()).Count()
-}
-
-func (us *userService) GetUserList(page, pageSize int) ([]orm.Params, error) {
+func (us *userService) GetUserList(page, pageSize int, userName, realName, email string, isActive int) ([]orm.Params, int, error) {
 
 	offset := (page - 1) * pageSize
 	if offset < 0 {
@@ -50,8 +46,21 @@ func (us *userService) GetUserList(page, pageSize int) ([]orm.Params, error) {
 
 	var users []orm.Params
 	queryset := o.QueryTable(us.table())
+	if len("userName") > 0 {
+		queryset = o.QueryTable(us.table()).Filter("user_name__icontains", userName)
+	}
+	if len("email") > 0 {
+		queryset = o.QueryTable(us.table()).Filter("email__icontains", email)
+	}
+	if len("realName") > 0 {
+		queryset = o.QueryTable(us.table()).Filter("real__name__icontains", realName)
+	}
+	if len("isActive") > 0 {
+		queryset = o.QueryTable(us.table()).Filter("is_active", isActive)
+	}
+
 	_, err := queryset.OrderBy("Id").Limit(pageSize, offset).Values(&users, "Id", "UserName", "Email", "LastLogin", "RealName", "IsActive")
-	return users, err
+	return users, len(users), err
 }
 
 // 根据用户名称获取用户信息
