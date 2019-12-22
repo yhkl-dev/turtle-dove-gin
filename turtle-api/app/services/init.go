@@ -10,6 +10,7 @@ import (
 var (
 	o           orm.Ormer
 	UserService *userService
+	AuthService *authService
 )
 
 func init() {
@@ -28,6 +29,8 @@ func init() {
 	orm.RegisterDataBase("default", "mysql", dsn)
 	orm.RegisterModel(
 		new(tables.User),
+		new(tables.Role),
+		new(tables.AuthToken),
 	)
 	orm.RunSyncdb("default", false, true)
 
@@ -39,6 +42,7 @@ func init() {
 
 func initService() {
 	UserService = &userService{}
+	AuthService = &authService{}
 }
 
 func tableName(name string) string {

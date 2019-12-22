@@ -43,4 +43,13 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:UserController"] = append(beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:UserController"],
+        beego.ControllerComments{
+            Method: "Login",
+            Router: `/login`,
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
 }

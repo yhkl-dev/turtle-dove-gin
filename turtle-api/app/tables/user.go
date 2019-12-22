@@ -15,15 +15,6 @@ type User struct {
 	UpdateTime   time.Time `orm:"auto_now:type(datetime)"`
 }
 
-// Role table
-type Role struct {
-	Id          int
-	RoleName    string    `orm:"size(20)"`
-	CreateTime  time.Time `orm:"auto_now_add; type(datetime)"`
-	UpdateTime  time.Time `orm:"auto_now;type(datetime)"`
-	Description string    `orm:"size(200)"`
-}
-
 // Permission Table
 type Permission struct {
 	Id             int

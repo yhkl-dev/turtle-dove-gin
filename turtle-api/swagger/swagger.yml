@@ -68,6 +68,10 @@ paths:
         description: required
         type: integer
         format: int64
+  /user/login:
+    post:
+      tags:
+      - user
 definitions:
   services.UserService.User:
     title: User

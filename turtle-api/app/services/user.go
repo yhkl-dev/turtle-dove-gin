@@ -114,3 +114,22 @@ func (us *userService) ChangePassword(user *tables.User, password string) error 
 
 	return err
 }
+
+// Login
+func (us *userService) Login(userName, userPassword string) (int, string, error) {
+	user, err := us.GetUserByName(userName)
+	if err != nil {
+		return 0, "Wrong username", err
+	}
+
+	authResult := utils.CheckMd5Value(userPassword, user.UserPassword)
+	if !authResult {
+
+		return 0, "Authentication Failed, Wrong password", err
+	}
+	token, err := utils.GenerateToken(user.UserName, user.Email)
+	if err != nil {
+		return 0, "", err
+	}
+	return user.Id, token, nil
+}

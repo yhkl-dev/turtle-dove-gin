@@ -76,9 +76,7 @@ func (us *UserController) AddUser() {
 		userParse.Email)
 
 	if err != nil {
-		us.Ctx.ResponseWriter.WriteHeader(400)
-		us.Ctx.ResponseWriter.Write([]byte(err.Error()))
-		us.StopRun()
+		us.CustomAbort(400, err.Error())
 	}
 	us.Data["json"] = user
 	us.ServeJSON()
@@ -139,5 +137,31 @@ func (us *UserController) UpdateUserProfile() {
 		}
 	}
 	us.Data["json"] = "ok"
+	us.ServeJSON()
+}
+
+// @router /login [post]
+func (us *UserController) Login() {
+	var userParse tables.User
+	infos := us.Ctx.Input.RequestBody
+	if err := json.Unmarshal(infos, &userParse); err != nil {
+		us.CustomAbort(500, err.Error())
+	}
+
+	id, token, err := services.UserService.Login(
+		userParse.UserName,
+		userParse.UserPassword,
+	)
+
+	if err != nil {
+		us.CustomAbort(401, err.Error())
+	}
+	_, err = services.AuthService.AddToken(id, token)
+	if err != nil {
+		us.CustomAbort(500, err.Error())
+	}
+
+	us.Ctx.ResponseWriter.Header().Set("Authorization", token)
+	us.Data["json"] = token
 	us.ServeJSON()
 }
