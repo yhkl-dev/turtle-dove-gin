@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	"github.com/astaxie/beego"
@@ -187,6 +188,8 @@ func (us *UserController) Login() {
 		us.CustomAbort(500, err.Error())
 	}
 
+	str, err := services.RedisService.Get("name")
+	fmt.Println(str)
 	us.Ctx.ResponseWriter.Header().Set("Authorization", token)
 	us.Data["json"] = token
 	us.ServeJSON()

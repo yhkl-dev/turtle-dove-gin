@@ -22,6 +22,42 @@ type CustomClaims struct {
 	jwt.StandardClaims
 }
 
+// RefreshToken update expireAtTime and retunr a new string
+func RefreshToken(tokenString string) (string, error) {
+	token, err := jwt.ParseWithClaims(
+		tokenString,
+		CustomClaims{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte(KEY), nil
+		})
+	claims, ok := token.Claims.(*CustomClaims)
+	if !ok || !token.Valid {
+		return "", err
+	}
+
+	nowTime := time.Now()
+	confExpireTime := beego.AppConfig.String("EXPIRE_TIME")
+
+	var expireAtTime time.Time
+	if len(confExpireTime) == 0 {
+		expireAtTime = nowTime.Add(time.Duration(DEFAULT_EXPIRE_SECONDS) * time.Second)
+
+	}
+	midTime, _ := strconv.Atoi(confExpireTime)
+	expireAtTime = nowTime.Add(time.Duration(midTime) * time.Second)
+	newClaims := CustomClaims{
+		claims.UserName,
+		claims.Email,
+		jwt.StandardClaims{
+			ExpiresAt: expireAtTime.Unix(),
+			Issuer:    claims.UserName,
+		},
+	}
+	newTokenClaims := jwt.NewWithClaims(jwt.SigningMethodES256, newClaims)
+	newToken, err := newTokenClaims.SignedString([]byte(KEY))
+	return newToken, err
+}
+
 // GenerateToken return a token
 func GenerateToken(userName, email string) (string, error) {
 	nowTime := time.Now()
@@ -38,7 +74,7 @@ func GenerateToken(userName, email string) (string, error) {
 		email,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
-			Issuer:    beego.AppConfig.String("appname"),
+			Issuer:    userName,
 		},
 	}
 

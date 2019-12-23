@@ -1,16 +1,21 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/garyburd/redigo/redis"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/tables"
 )
 
 var (
-	o           orm.Ormer
-	UserService *userService
-	AuthService *authService
+	o            orm.Ormer
+	r            redis.Conn
+	RedisService *redisService
+	UserService  *userService
+	AuthService  *authService
 )
 
 func init() {
@@ -37,12 +42,26 @@ func init() {
 	o = orm.NewOrm()
 	orm.RunCommand()
 
+	redisHost := beego.AppConfig.String("redis.host")
+	redisPort := beego.AppConfig.String("redis.port")
+	redisDB := beego.AppConfig.String("redis.db")
+	if redisDB == "" {
+		redisDB = "0"
+	}
+	if redisPort == "" {
+		redisPort = "6379"
+	}
+	rsdn := fmt.Sprintf("redis://%s:%s/%s", redisHost, redisPort, redisDB)
+	r, _ = redis.DialURL(rsdn)
+	//defer r.Close()
+
 	initService()
 }
 
 func initService() {
 	UserService = &userService{}
 	AuthService = &authService{}
+	RedisService = &redisService{}
 }
 
 func tableName(name string) string {

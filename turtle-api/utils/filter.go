@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"fmt"
+
 	beego_context "github.com/astaxie/beego/context"
 	"github.com/astaxie/beego/orm"
 	"github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/tables"
@@ -24,5 +26,8 @@ var FilterToken = func(ctx *beego_context.Context) {
 			ctx.ResponseWriter.WriteHeader(401)
 			ctx.ResponseWriter.Write([]byte("Authorization has been expired"))
 		}
+		originClaims, _ := ParseToken(token)
+		fmt.Println(originClaims.UserName)
+
 	}
 }
