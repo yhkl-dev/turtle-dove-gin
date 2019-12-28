@@ -11,11 +11,12 @@ import (
 )
 
 var (
-	o            orm.Ormer
-	r            redis.Conn
-	RedisService *redisService
-	UserService  *userService
-	AuthService  *authService
+	o                 orm.Ormer
+	r                 redis.Conn
+	RedisService      *redisService
+	UserService       *userService
+	RoleService       *roleService
+	PermissionService *permissionService
 )
 
 func init() {
@@ -35,7 +36,7 @@ func init() {
 	orm.RegisterModel(
 		new(tables.User),
 		new(tables.Role),
-		new(tables.AuthToken),
+		new(tables.Permission),
 	)
 	orm.RunSyncdb("default", false, true)
 
@@ -60,7 +61,8 @@ func init() {
 
 func initService() {
 	UserService = &userService{}
-	AuthService = &authService{}
+	RoleService = &roleService{}
+	PermissionService = &permissionService{}
 	RedisService = &redisService{}
 }
 

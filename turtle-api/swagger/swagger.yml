@@ -7,6 +7,11 @@ info:
     email: kaiyang939325@gmail.com
 basePath: /v1
 paths:
+  /role/:
+    get:
+      tags:
+      - role
+      operationId: RoleController.Get all roles
   /user/:
     get:
       tags:
@@ -175,3 +180,6 @@ tags:
 - name: user
   description: |
     UserController struct, Operation for user api
+- name: role
+  description: |
+    RoleController struct, Operation for role

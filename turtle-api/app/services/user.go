@@ -38,6 +38,7 @@ func (us *userService) GetUser(userID int) (*tables.User, error) {
 }
 
 func (us *userService) GetUserList(page, pageSize int, userName, realName, email string, isActive int) ([]orm.Params, int, error) {
+	//func (us *userService) GetUserList(page, pageSize int, userName, realName, email string, isActive int) ([]tables.User, int, error) {
 
 	offset := (page - 1) * pageSize
 	if offset < 0 {
@@ -45,6 +46,7 @@ func (us *userService) GetUserList(page, pageSize int, userName, realName, email
 	}
 
 	var users []orm.Params
+	//	var users []tables.User
 	queryset := o.QueryTable(us.table())
 	if len("userName") > 0 {
 		queryset = o.QueryTable(us.table()).Filter("user_name__icontains", userName)
@@ -60,6 +62,12 @@ func (us *userService) GetUserList(page, pageSize int, userName, realName, email
 	}
 
 	_, err := queryset.OrderBy("Id").Limit(pageSize, offset).Values(&users, "Id", "UserName", "Email", "LastLogin", "RealName", "IsActive")
+	//	_, err := queryset.OrderBy("Id").Limit(pageSize, offset).All(&users, "Id", "UserName", "Email", "LastLogin", "RealName", "IsActive")
+
+	//for i := 0; i < len(users); i++ {
+	//	o.LoadRelated(&users[i], "Roles")
+	//}
+
 	return users, len(users), err
 }
 
@@ -89,6 +97,13 @@ func (us *userService) AddUser(userName, userPassword, realName, email string) (
 		return nil, err
 	}
 	_, err := o.Insert(user)
+	defaultRole, _ := RoleService.GetRoleByID(1)
+	userRoleMapping := o.QueryM2M(user, "Roles")
+	_, err = userRoleMapping.Add(defaultRole)
+
+	if err != nil {
+		return nil, err
+	}
 	return user, err
 }
 
@@ -125,20 +140,20 @@ func (us *userService) ChangePassword(user *tables.User, password string) error 
 }
 
 // Login
-func (us *userService) Login(userName, userPassword string) (int, string, error) {
+func (us *userService) Login(userName, userPassword string) (string, error) {
 	user, err := us.GetUserByName(userName)
 	if err != nil {
-		return 0, "Wrong username", err
+		return "Wrong userName", err
 	}
 
 	authResult := utils.CheckMd5Value(userPassword, user.UserPassword)
 	if !authResult {
 
-		return 0, "Authentication Failed, Wrong password", err
+		return "Authentication Failed, Wrong password", err
 	}
 	token, err := utils.GenerateToken(user.UserName, user.Email)
 	if err != nil {
-		return 0, "", err
+		return "", err
 	}
-	return user.Id, token, nil
+	return token, nil
 }

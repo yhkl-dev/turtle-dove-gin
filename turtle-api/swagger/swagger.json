@@ -10,6 +10,14 @@
     },
     "basePath": "/v1",
     "paths": {
+        "/role/": {
+            "get": {
+                "tags": [
+                    "role"
+                ],
+                "operationId": "RoleController.Get all roles"
+            }
+        },
         "/user/": {
             "get": {
                 "tags": [
@@ -260,6 +268,10 @@
         {
             "name": "user",
             "description": "UserController struct, Operation for user api\n"
+        },
+        {
+            "name": "role",
+            "description": "RoleController struct, Operation for role\n"
         }
     ]
 }

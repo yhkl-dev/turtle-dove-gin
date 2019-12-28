@@ -7,6 +7,15 @@ import (
 
 func init() {
 
+    beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:RoleController"] = append(beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:RoleController"],
+        beego.ControllerComments{
+            Method: "GetAlliRoles",
+            Router: `/`,
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:UserController"] = append(beego.GlobalControllerRouter["github.com/yhkl-dev/turtle-dove-beego/turtle-api/app/controllers:UserController"],
         beego.ControllerComments{
             Method: "GetAll",

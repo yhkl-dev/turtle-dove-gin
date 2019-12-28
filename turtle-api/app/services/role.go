@@ -27,7 +27,6 @@ func (rs *roleService) valid(role *tables.Role) error {
 }
 
 func (rs *roleService) GetRoleByID(roleID int) (*tables.Role, error) {
-
 	role := &tables.Role{}
 	role.Id = roleID
 
@@ -53,7 +52,6 @@ func (rs *roleService) GetRoleList(page, pageSize int) ([]orm.Params, error) {
 }
 
 func (rs *roleService) AddRole(roleName, description string, parentRoleId int) (*tables.Role, error) {
-
 	role := &tables.Role{}
 	role.RoleName = roleName
 	role.Description = description

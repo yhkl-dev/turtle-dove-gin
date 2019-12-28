@@ -41,7 +41,6 @@ func RefreshToken(tokenString string) (string, error) {
 	var expireAtTime time.Time
 	if len(confExpireTime) == 0 {
 		expireAtTime = nowTime.Add(time.Duration(DEFAULT_EXPIRE_SECONDS) * time.Second)
-
 	}
 	midTime, _ := strconv.Atoi(confExpireTime)
 	expireAtTime = nowTime.Add(time.Duration(midTime) * time.Second)
