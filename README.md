@@ -5,5 +5,6 @@
 
 ### usage
 ```
-bee run -gendoc=true -downdoc=true
+cd gin-turtle-api
+go run main.go
 ```
