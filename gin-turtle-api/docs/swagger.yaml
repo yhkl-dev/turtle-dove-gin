@@ -1,0 +1,14 @@
+info:
+  contact:
+    email: kaiyang939325@gmail.com
+    name: API Support
+    url: https://github.com/yhkl-dev
+  description: Turtle Dove API for rds manager
+  license: {}
+  termsOfService: http://yangkai.org.cn
+  title: Turtel Dove API
+  version: "1.0"
+paths:
+  /register:
+    get: {}
+swagger: "2.0"

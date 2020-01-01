@@ -1,0 +1,20 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Turtle Dove API for rds manager",
+        "title": "Turtel Dove API",
+        "termsOfService": "http://yangkai.org.cn",
+        "contact": {
+            "name": "API Support",
+            "url": "https://github.com/yhkl-dev",
+            "email": "kaiyang939325@gmail.com"
+        },
+        "license": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/register": {
+            "get": {}
+        }
+    }
+}
