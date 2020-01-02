@@ -8,8 +8,8 @@ type Role struct {
 	ParentRoleID int          `gorm:"column:parent_role_id; default(0)"`
 	RoleName     string       `gorm:"type:varchar(32);column:role_name;"`
 	Description  string       `gorm:"type:varchar(200);column:description"`
-	CreateTime   time.Time    `gorm:"column:create_time"`
-	UpdateTime   time.Time    `gorm:"column:update_time"`
+	CreateTime   *time.Time   `gorm:"column:create_time"`
+	UpdateTime   *time.Time   `gorm:"column:update_time"`
 	Permissions  []Permission `gorm:"many2many:sys_role_permission_mapping"`
 }
 

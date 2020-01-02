@@ -20,6 +20,7 @@ type UserListService struct {
 // ListAllUsers function return user list
 func (uls *UserListService) ListAllUsers() serializers.Response {
 	var users []models.User
+	//	var roles []models.Role
 	total := 0
 	queryUser := "%" + uls.UserName + "%"
 
@@ -35,7 +36,7 @@ func (uls *UserListService) ListAllUsers() serializers.Response {
 		}
 	}
 
-	if err := database.DB.Limit(uls.PageSize).Offset(uls.Page).Where("is_deleted = 0 and user_name like  ?", queryUser).Find(&users).Error; err != nil {
+	if err := database.DB.Limit(uls.PageSize).Offset(uls.Page).Preload("Roles").Where("is_deleted = 0 and user_name like  ?", queryUser).Find(&users).Error; err != nil {
 		return serializers.Response{
 			Code:    50000,
 			Message: "Error connect database",
@@ -83,26 +84,24 @@ func (urs *UserRegieterService) Register() serializers.Response {
 
 	nowTime := time.Now()
 	user.CreateTime = &nowTime
+	var role models.Role
+	database.DB.Table("sys_role").Where("id = 1").First(&role)
+	fmt.Println(role.RoleName)
 	if err := database.DB.Create(&user).Error; err != nil {
 		return serializers.ParameterError("Enroll Failed", err)
 	}
+	database.DB.Model(&user).Association("Roles").Append(role)
+	//database.DB.Save(&user)
 	return BuildUserResponse(user)
 }
 
 // GetUserProfileService retuan user profile
-type GetUserProfileService struct {
-	UserName   string     `json:"user_name"`
-	RealName   string     `json:"real_name"`
-	Email      string     `json:"email"`
-	LastLogin  *time.Time `json:"last_login"`
-	CreateTime *time.Time `json:"create_time"`
-	UpdateTime *time.Time `json:"update_time"`
-}
+type GetUserProfileService struct{}
 
 // GetUserProfile return user profile
 func (gups *GetUserProfileService) GetUserProfile(id string) serializers.Response {
 	var user models.User
-	err := database.DB.First(&user, id).Error
+	err := database.DB.Preload("Roles").Where("is_deleted = ?", 0).First(&user, id).Error
 	if err != nil {
 		return serializers.Response{
 			Code:    404,

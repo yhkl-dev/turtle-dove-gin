@@ -9,14 +9,15 @@ import (
 
 // UserSerializer  struct for serialize data
 type UserSerializer struct {
-	ID         int        `json:"id"`
-	UserName   string     `json:"user_name"`
-	RealName   string     `json:"real_name"`
-	IsActive   int        `json:"is_active"`
-	Email      string     `json:"email"`
-	LastLogin  *time.Time `json:"last_login"`
-	CreateTime *time.Time `json:"create_time"`
-	UpdateTime *time.Time `json:"update_time"`
+	ID         int           `json:"id"`
+	UserName   string        `json:"user_name"`
+	RealName   string        `json:"real_name"`
+	IsActive   int           `json:"is_active"`
+	Email      string        `json:"email"`
+	LastLogin  *time.Time    `json:"last_login"`
+	CreateTime *time.Time    `json:"create_time"`
+	UpdateTime *time.Time    `json:"update_time"`
+	Roles      []models.Role `json:"roles"`
 }
 
 // BuildUser single user serialzier
@@ -30,6 +31,7 @@ func BuildUser(user models.User) UserSerializer {
 		LastLogin:  user.LastLogin,
 		CreateTime: user.CreateTime,
 		UpdateTime: user.UpdateTime,
+		Roles:      user.Roles,
 	}
 }
 
