@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/conf"
 	_ "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database"
 	_ "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/docs"
@@ -20,7 +18,6 @@ import (
 
 func main() {
 	port, err := conf.SysConfig.GetValue("Base", "port")
-	fmt.Println(port)
 	if err != nil {
 		panic("Loading config file error")
 	}

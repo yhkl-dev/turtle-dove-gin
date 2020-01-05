@@ -20,7 +20,7 @@ type Response struct {
 	Code    int         `json:"code"`
 	Data    interface{} `json:"data,omitempty"`
 	Message string      `json:"msg"`
-	Error   string      `json:"erro,omitempty"`
+	Error   string      `json:"error,omitempty"`
 }
 
 // DataList base list construct

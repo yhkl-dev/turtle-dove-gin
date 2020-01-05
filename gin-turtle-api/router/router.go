@@ -5,6 +5,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 	v1 "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/router/api/v1"
+	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/middleware/jwtauth"
 )
 
 // InitRouter ini router
@@ -18,6 +19,7 @@ func InitRouter() *gin.Engine {
 
 func setUpConfig(router *gin.Engine) {
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	router.Use(jwtauth.JWTAuthMiddleware())
 }
 
 func setUpRouter(router *gin.Engine) {

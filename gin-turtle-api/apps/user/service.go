@@ -7,6 +7,8 @@ import (
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database"
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/encrypt"
+	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/middleware/jwtauth"
+	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/response"
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/serializers"
 )
 
@@ -120,13 +122,15 @@ type UpdateUserService struct {
 	RealName     string `form:"real_name" json:"real_name"`
 	Email        string `form:"email" json:"email"`
 	IsActive     int    `form:"is_active" json:"is_active"`
+	RoleID       []int  `form:"role_id" json:"role_id"`
 }
 
+// UpdateUserService update user info
 func (ups *UpdateUserService) UpdateUser(id string) serializers.Response {
 
 	var user models.User
 
-	err := database.DB.First(&user, id).Error
+	err := database.DB.Where("is_deleted = 0").First(&user, id).Error
 	if err != nil {
 		return serializers.Response{
 			Code:    404,
@@ -142,6 +146,20 @@ func (ups *UpdateUserService) UpdateUser(id string) serializers.Response {
 
 	updateTime := time.Now()
 	user.UpdateTime = &updateTime
+	fmt.Println("role_id", ups.RoleID)
+
+	for _, r := range ups.RoleID {
+		var role models.Role
+		err := database.DB.First(&role, r).Error
+		if err != nil {
+			return serializers.Response{
+				Code:    50002,
+				Message: fmt.Sprintf("role %d does not exist", r),
+				Error:   err.Error(),
+			}
+		}
+		user.Roles = append(user.Roles, role)
+	}
 
 	err = database.DB.Save(&user).Error
 	if err != nil {
@@ -194,15 +212,16 @@ func (dus *DeleteUserService) DeleteUser(id string) serializers.Response {
 
 }
 
+// UserLoginServica user login struct
 type UserLoginService struct {
 	UserName     string `form:"user_name" json:"user_name"`
 	UserPassword string `form:"user_password" json:"user_password"`
 }
 
+// UserLoginService user login func
 func (uls *UserLoginService) Login() serializers.Response {
 
 	var user models.User
-
 	err := database.DB.Where("user_name = ?", uls.UserName).First(&user).Error
 	if err != nil {
 		return serializers.Response{
@@ -213,10 +232,39 @@ func (uls *UserLoginService) Login() serializers.Response {
 
 	}
 	if user.UserPassword == encrypt.StringToMd5(uls.UserPassword) {
-		fmt.Println("passed")
+		roleList := uls.getUserRole(user)
+
+		fmt.Println(roleList)
+		token, err := jwtauth.GenerateToken(user.UserName, user.Email)
+		if err != nil {
+			fmt.Println(err)
+			return response.ErrorResponse(err)
+		}
+
+		return serializers.Response{
+			Data: token,
+		}
 	}
 
 	return serializers.Response{
-		Data: "success",
+		Code:    404,
+		Message: "user_name or password incorrect.",
+		Error:   err.Error(),
 	}
+
+}
+
+func (uls *UserLoginService) getUserRole(user models.User) (roleIDList []int) {
+	var (
+		roles []models.Role
+	)
+	err := database.DB.Model(&user).Related(&roles, "Roles").Error
+	if err != nil {
+		return
+	}
+
+	for _, role := range roles {
+		roleIDList = append(roleIDList, role.ID)
+	}
+	return roleIDList
 }

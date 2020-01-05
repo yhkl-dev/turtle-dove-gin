@@ -7,14 +7,13 @@ import (
 
 // ListAllUsers return user list
 func ListAllRoles(c *gin.Context) {
-	//	service := UserListService{}
-	//	if err := c.ShouldBind(&service); err == nil {
-	//		res := service.ListAllUsers()
-	//		c.JSON(200, res)
-	//	} else {
-	//		c.JSON(200, response.ErrorResponse(err))
-	//}
-	c.JSON(200, "role")
+	service := RoleListService{}
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.ListAllRoles()
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, response.ErrorResponse(err))
+	}
 }
 
 // AddRole
@@ -28,6 +27,31 @@ func AddRole(c *gin.Context) {
 		res := service.AddRole()
 		c.JSON(200, res)
 
+	} else {
+		c.JSON(200, response.ErrorResponse(err))
+	}
+}
+
+// UpdateRole
+// @router /:id [put]
+func UpdateRole(c *gin.Context) {
+	var service UpdateRoelService
+
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.UpdateRole(c.Param("id"))
+		c.JSON(200, res)
+	} else {
+		c.JSON(200, response.ErrorResponse(err))
+	}
+}
+
+// DeleteRole
+// @router /:id [delete]
+func DeleteRole(c *gin.Context) {
+	var service DeleteRoleService
+	if err := c.ShouldBind(&service); err == nil {
+		res := service.DeleteRole(c.Param("id"))
+		c.JSON(200, res)
 	} else {
 		c.JSON(200, response.ErrorResponse(err))
 	}

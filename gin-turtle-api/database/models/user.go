@@ -1,7 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"time"
+
+	"github.com/jinzhu/gorm"
 )
 
 // User struct for user table
@@ -22,4 +25,25 @@ type User struct {
 // User table name
 func (u User) TableName() string {
 	return "sys_user"
+}
+
+// Permissions
+func permissions() map[string]string {
+	var permissionList = make(map[string]string)
+	permissionList["ListAllUsers"] = "can view users"
+	permissionList["GetUserProfile"] = "can view user profile details"
+	permissionList["UpdateUserInfo"] = "can change user info"
+	permissionList["DeleteUser"] = "can delete user"
+	return permissionList
+}
+
+// RegisterPermission 权限注册
+func (u User) RegisterPermission(DB *gorm.DB) {
+	fmt.Println("user---------------------")
+	for cn, pn := range permissions() {
+		var initList Permission
+		initList.CodeName = cn
+		initList.PermissionName = pn
+		DB.Create(&initList)
+	}
 }

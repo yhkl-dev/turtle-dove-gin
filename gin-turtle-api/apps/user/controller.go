@@ -60,6 +60,7 @@ func DeleteUser(c *gin.Context) {
 	}
 }
 
+// UserLogin for user login
 func UserLogin(c *gin.Context) {
 	var service UserLoginService
 	if err := c.ShouldBind(&service); err == nil {

@@ -2,6 +2,7 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/permission"
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/role"
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/user"
 )
@@ -12,5 +13,6 @@ func RegisterRouter(router *gin.RouterGroup) {
 	{
 		user.RegisterRouter(v1.Group("/user"))
 		role.RegisterRouter(v1.Group("/role"))
+		permission.RegisterRouter(v1.Group("/permission"))
 	}
 }

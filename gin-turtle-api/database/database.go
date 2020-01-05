@@ -41,8 +41,5 @@ func init() {
 	DB.DB().SetMaxIdleConns(dbLimits)
 	DB.DB().SetMaxOpenConns(dbLimits)
 	DB.DB().SetConnMaxLifetime(time.Second * 30)
-	//SQLXDb = sqlx.MustConnect("mysql", dsn)
-	//SQLXDb.SetMaxOpenConns(dbLimits)
-	fmt.Println("print init")
 	migrate()
 }

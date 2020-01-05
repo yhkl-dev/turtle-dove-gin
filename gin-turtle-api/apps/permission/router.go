@@ -1,4 +1,4 @@
-package role
+package permission
 
 import (
 	"github.com/gin-gonic/gin"
@@ -6,8 +6,5 @@ import (
 
 // RegisterRouter 注册路由
 func RegisterRouter(r *gin.RouterGroup) {
-	r.GET("", ListAllRoles)
-	r.POST("", AddRole)
-	r.PUT("/:id", UpdateRole)
-	r.DELETE("/:id", DeleteRole)
+	r.GET("", ListAllPermissions)
 }

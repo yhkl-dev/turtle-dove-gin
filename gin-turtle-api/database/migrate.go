@@ -1,12 +1,21 @@
 package database
 
 import (
+	"fmt"
+
 	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
 )
 
+type initPermission struct {
+	CodeName       string
+	PermissionName string
+}
+
 func migrate() {
-	//DB.AutoMigrate(&user.User{})
-	//DB.AutoMigrate(&role.Role{})
-	DB.AutoMigrate(&models.User{}, &models.Role{}, &models.Permission{})
-	//	DB.AutoMigrate(&models.User{})
+	fmt.Println("Migrating tables....")
+	DB.AutoMigrate(&models.Permission{}, &models.User{}, &models.Role{})
+
+	fmt.Println("Init Permissions")
+	DB.Exec("truncate table sys_permission")
+	models.User{}.RegisterPermission(DB)
 }
