@@ -9,12 +9,13 @@ import (
 
 // RoleSerializer struct for return data
 type RoleSerializer struct {
-	ID           int        `form:"id" json:"id"`
-	ParentRoleID int        `form:"parent_id" json:"parent_id"`
-	RoleName     string     `form:"role_name" json:"role_name"`
-	Description  string     `form:"description" json:"description"`
-	CreateTime   *time.Time `form:"create_time" json:"create_time"`
-	UpdateTime   *time.Time `form:"update_time" json:"update_time"`
+	ID           int                 `json:"id"`
+	ParentRoleID int                 `json:"parent_id"`
+	RoleName     string              `json:"role_name"`
+	Description  string              `json:"description"`
+	CreateTime   *time.Time          `json:"create_time"`
+	UpdateTime   *time.Time          `json:"update_time"`
+	Permissions  []models.Permission `json:"permissions"`
 }
 
 // BuildRole single role serialzier
@@ -26,6 +27,7 @@ func BuildRole(role models.Role) RoleSerializer {
 		Description:  role.Description,
 		CreateTime:   role.CreateTime,
 		UpdateTime:   role.UpdateTime,
+		Permissions:  role.Permissions,
 	}
 }
 
@@ -34,10 +36,8 @@ func BuildRoleList(items []models.Role) (roles []RoleSerializer) {
 	for _, item := range items {
 		role := BuildRole(item)
 		roles = append(roles, role)
-
 	}
 	return roles
-
 }
 
 // BuildRoleResponse for return data
@@ -45,5 +45,4 @@ func BuildRoleResponse(role models.Role) serializers.Response {
 	return serializers.Response{
 		Data: BuildRole(role),
 	}
-
 }

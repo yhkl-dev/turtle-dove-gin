@@ -24,6 +24,7 @@ type JWTClaims struct {
 type CustomClaims struct {
 	UserName string `json:"username"`
 	Email    string `json:"email"`
+	RoleList []int  `json:"role_list"`
 	jwt.StandardClaims
 }
 
@@ -41,10 +42,11 @@ func getExpireTime() (confExpireTime int) {
 }
 
 // GenerateToken return a token
-func GenerateToken(userName, email string) (string, error) {
+func GenerateToken(userName, email string, roleList []int) (string, error) {
 	claims := CustomClaims{
 		userName,
 		email,
+		roleList,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(time.Duration(getExpireTime()) * time.Second).Unix(),
 			Issuer:    userName,
@@ -99,6 +101,7 @@ func RefreshToken(tokenString string) (string, error) {
 	newClaims := CustomClaims{
 		claims.UserName,
 		claims.Email,
+		claims.RoleList,
 		jwt.StandardClaims{
 			ExpiresAt: nowTime.Add(time.Duration(getExpireTime()) * time.Second).Unix(),
 			Issuer:    claims.UserName,

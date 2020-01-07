@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/jinzhu/gorm"
+)
 
 // Role for role table
 type Role struct {
@@ -15,4 +19,25 @@ type Role struct {
 
 func (r Role) TableName() string {
 	return "sys_role"
+}
+
+// Permissions
+func rolePermissions() map[string]string {
+	var permissionList = make(map[string]string)
+	permissionList["ListAllRoles"] = "GET:/api/v1/role"
+	permissionList["AddRole"] = "GET:/api/v1/role/:id "
+	permissionList["UpdateRole"] = "PUT:/api/v1/role/:id"
+	permissionList["DeleteRole"] = "DELETE:/api/v1/role/:id"
+	return permissionList
+}
+
+// RegisterPermission 权限注册
+func (u Role) RegisterPermission(DB *gorm.DB) {
+	for cn, pn := range rolePermissions() {
+		var initList Permission
+		initList.CodeName = cn
+		initList.PermissionName = pn
+		DB.Create(&initList)
+	}
+
 }

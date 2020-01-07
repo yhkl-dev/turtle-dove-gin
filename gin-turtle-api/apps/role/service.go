@@ -17,6 +17,7 @@ type RoleListService struct {
 	Page         int    `query:"page"`
 }
 
+// ListAllRoles return all roles
 func (rls *RoleListService) ListAllRoles() serializers.Response {
 	var roles []models.Role
 	total := 0
@@ -33,10 +34,10 @@ func (rls *RoleListService) ListAllRoles() serializers.Response {
 			Error:   err.Error(),
 		}
 	}
-	if err := database.DB.Limit(rls.PageSize).Offset(rls.Page).Where("parent_role_id = ? and role_name like ?", rls.ParentRoleID, queryRole).Find(&roles).Error; err != nil {
+	if err := database.DB.Limit(rls.PageSize).Offset(rls.Page).Preload("Permissions").Where("parent_role_id = ? and role_name like ?", rls.ParentRoleID, queryRole).Find(&roles).Error; err != nil {
 		return serializers.Response{
 			Code:    50000,
-			Message: "error occurquery database Error",
+			Message: "error occur query database Error",
 			Error:   err.Error(),
 		}
 	}
@@ -89,6 +90,7 @@ type UpdateRoelService struct {
 	ParentRoleID int    `form:"parent_role_id" json:"parent_role_id"`
 	RoleName     string `form:"role_name" json:"role_name"`
 	Description  string `form:"description" json:"description"`
+	Permissions  []int  `form:"permissions" json:"permissions"`
 }
 
 // UpdateRole update role info
@@ -116,6 +118,19 @@ func (urs *UpdateRoelService) UpdateRole(id string) serializers.Response {
 
 	updateTime := time.Now()
 	role.UpdateTime = &updateTime
+
+	for _, r := range urs.Permissions {
+		var permission models.Permission
+		err := database.DB.First(&permission, r).Error
+		if err != nil {
+			return serializers.Response{
+				Code:    50002,
+				Message: fmt.Sprintf("persmission %d does not exist", r),
+				Error:   err.Error(),
+			}
+		}
+		role.Permissions = append(role.Permissions, permission)
+	}
 
 	err = database.DB.Save(&role).Error
 	if err != nil {

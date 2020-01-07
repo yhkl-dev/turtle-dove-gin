@@ -146,7 +146,6 @@ func (ups *UpdateUserService) UpdateUser(id string) serializers.Response {
 
 	updateTime := time.Now()
 	user.UpdateTime = &updateTime
-	fmt.Println("role_id", ups.RoleID)
 
 	for _, r := range ups.RoleID {
 		var role models.Role
@@ -222,7 +221,7 @@ type UserLoginService struct {
 func (uls *UserLoginService) Login() serializers.Response {
 
 	var user models.User
-	err := database.DB.Where("user_name = ?", uls.UserName).First(&user).Error
+	err := database.DB.Preload("Roles").Where("user_name = ?", uls.UserName).First(&user).Error
 	if err != nil {
 		return serializers.Response{
 			Code:    404,
@@ -232,12 +231,15 @@ func (uls *UserLoginService) Login() serializers.Response {
 
 	}
 	if user.UserPassword == encrypt.StringToMd5(uls.UserPassword) {
-		roleList := uls.getUserRole(user)
+		var roleList []int
 
-		fmt.Println(roleList)
-		token, err := jwtauth.GenerateToken(user.UserName, user.Email)
+		for _, role := range user.Roles {
+			roleList = append(roleList, role.ID)
+		}
+
+		token, err := jwtauth.GenerateToken(user.UserName, user.Email, roleList)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println(err.Error())
 			return response.ErrorResponse(err)
 		}
 
@@ -247,24 +249,6 @@ func (uls *UserLoginService) Login() serializers.Response {
 	}
 
 	return serializers.Response{
-		Code:    404,
-		Message: "user_name or password incorrect.",
-		Error:   err.Error(),
+		Data: "login failed",
 	}
-
-}
-
-func (uls *UserLoginService) getUserRole(user models.User) (roleIDList []int) {
-	var (
-		roles []models.Role
-	)
-	err := database.DB.Model(&user).Related(&roles, "Roles").Error
-	if err != nil {
-		return
-	}
-
-	for _, role := range roles {
-		roleIDList = append(roleIDList, role.ID)
-	}
-	return roleIDList
 }

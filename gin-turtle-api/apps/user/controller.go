@@ -69,5 +69,4 @@ func UserLogin(c *gin.Context) {
 	} else {
 		c.JSON(200, response.ErrorResponse(err))
 	}
-
 }

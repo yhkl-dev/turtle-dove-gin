@@ -18,4 +18,5 @@ func migrate() {
 	fmt.Println("Init Permissions")
 	DB.Exec("truncate table sys_permission")
 	models.User{}.RegisterPermission(DB)
+	models.Role{}.RegisterPermission(DB)
 }

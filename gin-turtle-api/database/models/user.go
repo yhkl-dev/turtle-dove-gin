@@ -28,19 +28,19 @@ func (u User) TableName() string {
 }
 
 // Permissions
-func permissions() map[string]string {
+func userPermissions() map[string]string {
 	var permissionList = make(map[string]string)
-	permissionList["ListAllUsers"] = "can view users"
-	permissionList["GetUserProfile"] = "can view user profile details"
-	permissionList["UpdateUserInfo"] = "can change user info"
-	permissionList["DeleteUser"] = "can delete user"
+	permissionList["ListAllUsers"] = "GET:/api/v1/user"
+	permissionList["GetUserProfile"] = "GET:/api/v1/user/:id"
+	permissionList["UpdateUserInfo"] = "PUT:/api/v1/user/:id"
+	permissionList["DeleteUser"] = "DELETE:/api/v1/user/:id"
 	return permissionList
 }
 
 // RegisterPermission 权限注册
 func (u User) RegisterPermission(DB *gorm.DB) {
 	fmt.Println("user---------------------")
-	for cn, pn := range permissions() {
+	for cn, pn := range userPermissions() {
 		var initList Permission
 		initList.CodeName = cn
 		initList.PermissionName = pn
