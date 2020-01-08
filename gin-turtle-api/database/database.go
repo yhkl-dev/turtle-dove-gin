@@ -7,7 +7,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/conf"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/conf"
 )
 
 var (

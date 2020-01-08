@@ -1,6 +1,6 @@
 package permission
 
-import "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
+import "github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database/models"
 
 type PermissionSerializer struct {
 	ID             int    `json:"id"`

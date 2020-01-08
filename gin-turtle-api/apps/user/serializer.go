@@ -3,8 +3,8 @@ package user
 import (
 	"time"
 
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/serializers"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database/models"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/serializers"
 )
 
 // UserSerializer  struct for serialize data

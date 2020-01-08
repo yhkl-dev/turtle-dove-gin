@@ -5,7 +5,7 @@ import (
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/conf"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/conf"
 )
 
 const (

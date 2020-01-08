@@ -1,9 +1,9 @@
 package permission
 
 import (
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/serializers"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database/models"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/serializers"
 )
 
 // ListPermissionsService struct

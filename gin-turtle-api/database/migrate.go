@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database/models"
 )
 
 type initPermission struct {

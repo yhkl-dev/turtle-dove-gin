@@ -3,7 +3,7 @@ package user
 import (
 	"time"
 
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/role"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/apps/role"
 )
 
 // User struct for user table

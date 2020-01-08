@@ -2,9 +2,9 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/permission"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/role"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/user"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/apps/permission"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/apps/role"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/apps/user"
 )
 
 // RegisterRouter 注册路由

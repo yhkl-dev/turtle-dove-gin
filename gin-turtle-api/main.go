@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/conf"
-	_ "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database"
-	_ "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/docs"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/router"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/conf"
+	_ "github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database"
+	_ "github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/docs"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/router"
 )
 
 // @title Turtel Dove API

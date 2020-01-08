@@ -3,7 +3,7 @@ package role
 import (
 	"time"
 
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/apps/permission"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/apps/permission"
 )
 
 // Role for role table

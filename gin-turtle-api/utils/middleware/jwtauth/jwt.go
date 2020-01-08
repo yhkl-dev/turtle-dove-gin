@@ -5,10 +5,10 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/response"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/serializers"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database/models"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/response"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/serializers"
 )
 
 // JWTAuthMiddleware middle ware for auth

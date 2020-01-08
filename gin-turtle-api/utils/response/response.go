@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/go-playground/validator"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/conf"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/serializers"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/conf"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/serializers"
 )
 
 // ErrorResponse return error message

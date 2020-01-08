@@ -14,5 +14,4 @@ type Permission struct {
 // TableName Permission Table Name
 func (p Permission) TableName() string {
 	return "sys_permission"
-
 }

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/Unknwon/goconfig"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/logx"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/logx"
 )
 
 var (

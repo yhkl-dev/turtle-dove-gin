@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/response"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/response"
 )
 
 // ListAllUsers return user list

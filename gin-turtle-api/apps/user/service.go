@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/database/models"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/encrypt"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/middleware/jwtauth"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/response"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/serializers"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/database/models"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/encrypt"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/middleware/jwtauth"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/response"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/serializers"
 )
 
 // UserListService for return data for ListAllUsers

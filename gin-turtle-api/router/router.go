@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
-	v1 "github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/router/api/v1"
-	"github.com/yhkl-dev/turtle-dove-beego/gin-turtle-api/utils/middleware/jwtauth"
+	v1 "github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/router/api/v1"
+	"github.com/yhkl-dev/turtle-dove-gin/gin-turtle-api/utils/middleware/jwtauth"
 )
 
 // InitRouter ini router
