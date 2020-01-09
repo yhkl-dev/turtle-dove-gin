@@ -34,7 +34,7 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		perList := PermissionJudge(claims.RoleList)
-		permissionURI := c.Request.Method + ":" + c.FullPath()
+		permissionURI := c.Request.Method// + ":" + c.FullPath()
 
 		var permissionObject models.Permission
 
